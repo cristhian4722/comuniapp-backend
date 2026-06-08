@@ -6,7 +6,7 @@ User = get_user_model()
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'date_joined')
+        fields = ('id', 'username', 'email', 'role', 'first_name', 'last_name', 'date_joined')
         read_only_fields = ('id', 'date_joined')
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -14,7 +14,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password', 'first_name', 'last_name')
+        fields = ('username', 'email', 'password', 'role', 'first_name', 'last_name')
 
     def validate_email(self, value):
         if User.objects.filter(email=value).exists():
@@ -26,7 +26,9 @@ class RegisterSerializer(serializers.ModelSerializer):
             username=validated_data['username'],
             email=validated_data['email'],
             password=validated_data['password'],
+            role=validated_data.get('role', 'resident'),
             first_name=validated_data.get('first_name', ''),
             last_name=validated_data.get('last_name', '')
         )
         return user
+

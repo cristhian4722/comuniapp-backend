@@ -22,6 +22,9 @@ urlpatterns = [
     # Authentication App APIs (Register, Login/Token, Refresh, Profile)
     path('api/auth/', include('authentication.urls')),
     
+    # Emprendedores App APIs (Categories, Services, Requests, Reviews)
+    path('api/emprendedores/', include('emprendedores.urls')),
+    
     # API Documentation (Swagger and ReDoc)
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
