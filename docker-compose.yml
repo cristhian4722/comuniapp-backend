@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    # Comando que ejecuta migraciones, recolecta estáticos e inicia Gunicorn
+    command: sh -c "python manage.py collectstatic --noinput && python manage.py migrate && gunicorn comuniapp.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=True
+      - SECRET_KEY=django-insecure-docker-secret-key-123
+      # URL de base de datos apuntando al servicio 'db' definido abajo
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/comuniapp_db
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=comuniapp_db
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
