@@ -14,6 +14,5 @@ class UserProfileView(generics.RetrieveUpdateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_object(self):
-        # Always return the currently logged-in user
         return self.request.user
 

@@ -1,0 +1,8 @@
+[run]
+omit =
+    */migrations/*
+    */tests.py
+    manage.py
+    comuniapp/asgi.py
+    comuniapp/wsgi.py
+    .venv/*

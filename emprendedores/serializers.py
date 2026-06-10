@@ -62,15 +62,12 @@ class ReviewSerializer(serializers.ModelSerializer):
         service_request = attrs.get('request')
 
         if request and request.user:
-            # 1. Check if the logged-in user is the resident who made the request
             if service_request.resident != request.user:
                 raise serializers.ValidationError("Solo el residente que solicitó el servicio puede calificarlo.")
 
-            # 2. Check if the service request is actually completed
             if service_request.status != 'completed':
                 raise serializers.ValidationError("Solo se pueden calificar solicitudes de servicios que hayan sido marcadas como Completadas (completed).")
 
-            # 3. Check if a review already exists
             if Review.objects.filter(request=service_request).exists():
                 raise serializers.ValidationError("Ya existe una calificación para esta solicitud de servicio.")
 

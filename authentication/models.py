@@ -9,7 +9,6 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='resident')
 
-    # Email is required to create a user in addition to username
     REQUIRED_FIELDS = ['email']
 
     def __str__(self):
